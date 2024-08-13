@@ -1,0 +1,151 @@
+.btn {
+    @include animate(background color border-color);
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    letter-spacing: 0.08em;
+    font: 700 #{$base-font-size * 1.25}/#{$base-line-height} $arial;
+    vertical-align: top;
+    padding: 16px 20px;
+    border: 1px solid transparent;
+    border-radius: $base-border-radius;
+    cursor: pointer;
+
+    &--icon {
+        width: 62px;
+        font-size: 46px;
+        line-height: 1;
+        letter-spacing: -2px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        aspect-ratio: 1;
+        padding: 0;
+    }
+
+    &--xs {
+        font-size: $base-font-size * 0.85;
+        padding: 10px 15px;
+    }
+
+    &--block {
+        width: 100%;
+        display: block;
+    }
+
+    &--disabled,
+    &[disabled] {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+}
+
+.btn__primary {
+    background: $primary;
+    color: $mily-white;
+
+    &:hover {
+        background: transparent;
+        color: $primary;
+        border-color: $primary;
+    }
+
+    &.btn--outline {
+        background: none;
+        color: $primary;
+        border-color: $primary;
+
+        &:hover {
+            background: $primary;
+            color: $mily-white;
+        }
+    }
+}
+
+.btn__secondary {
+    background: $secondary;
+    color: $mily-white;
+
+    &:hover {
+        background: transparent;
+        color: $secondary;
+        border-color: $secondary;
+    }
+
+    &.btn--outline {
+        background: none;
+        color: $secondary;
+        border-color: $secondary;
+
+        &:hover {
+            background: $secondary;
+            color: $black;
+        }
+    }
+}
+
+.btn__info {
+    background: $info;
+    color: $mily-white;
+
+    &:hover {
+        background: transparent;
+        color: $info;
+        border-color: $info;
+    }
+
+    &.btn--outline {
+        background: none;
+        color: $info;
+        border-color: $info;
+
+        &:hover {
+            background: $info;
+            color: $black;
+        }
+    }
+}
+
+.btn__success {
+    background: $success;
+    color: $mily-white;
+
+    &:hover {
+        background: transparent;
+        color: $success;
+        border-color: $success;
+    }
+
+    &.btn--outline {
+        background: none;
+        color: $success;
+        border-color: $success;
+
+        &:hover {
+            background: $success;
+            color: $black;
+        }
+    }
+}
+
+.btn__danger {
+    background: $danger;
+    color: $mily-white;
+
+    &:hover {
+        background: transparent;
+        color: $danger;
+        border-color: $danger;
+    }
+
+    &.btn--outline {
+        background: none;
+        color: $danger;
+        border-color: $danger;
+
+        &:hover {
+            background: $danger;
+            color: $black;
+        }
+    }
+}

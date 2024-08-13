@@ -1,0 +1,68 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: $white;
+    font: #{$base-font-size}/#{$base-line-height} $base-sans-serif-font;
+    margin: 0;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+    margin: 0 0 $gutter-width;
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+[type=email],
+[type=number],
+[type=date],
+[type=password],
+[type=text],
+textarea,
+select {
+    width: 100%;
+    height: 62px;
+    font: #{$base-font-size * 1.25}/#{$base-line-height} $arial;
+    padding: 5px 10px;
+    border-radius: $base-border-radius;
+    border: 1px solid $black;
+    outline: none;
+
+    &:read-only {
+        color: rgba($black, 0.5);
+        border-color: rgba($black, 0.1);
+    }
+}
+
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+table {
+    width: 100%;
+
+    th {
+        text-transform: uppercase;
+    }
+
+    td {
+        vertical-align: top;
+    }
+}
+
+p {
+    margin: 0 0 1em;
+}

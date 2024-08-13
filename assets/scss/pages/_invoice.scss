@@ -1,0 +1,139 @@
+@use 'sass:math';
+
+.invoice {
+    &__section {
+        margin-top: 40px;
+
+        &__header {
+            padding-bottom: $gutter-width * 0.75;
+            border-bottom: 1px solid rgba($charcoal-black, 0.1);
+            margin-bottom: $gutter-width * 2;
+
+            h1 {
+                margin-bottom: 0;
+            }
+        }
+
+        &__body {
+            background: $mily-white;
+            padding: $gutter-width;
+            border-radius: $base-border-radius * 2;
+        }
+    }
+
+    &__form {
+        padding: 40px 0;
+
+        fieldset {
+            flex: calc(50% - math.div($gutter-width, 2)) 0 1;
+        }
+
+        legend {
+            font-weight: 700;
+            font-size: $base-font-size * 1.5;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: math.div($gutter-width, 2);
+        }
+
+        td {
+            padding: 0 5px;
+
+            input {
+                margin-bottom: 10px;
+            }
+        }
+
+        .rate,
+        .quantity {
+            width: 160px;
+        }
+
+        .total {
+            font-size: $base-font-size * 1.5;
+            width: 120px;
+            padding-top: 10px;
+        }
+
+        .btn__holder {
+            flex: 100% 1 1;
+        }
+    }
+
+    &__preview {
+        backdrop-filter: blur(5px);
+        min-height: 80vh;
+        padding: 40px 0;
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        inset: 0;
+
+        &--show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &__action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    &__item {
+        display: flex;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba($charcoal-black, 0.1);
+        position: relative;
+
+        &__detail {
+            flex-grow: 1;
+
+            strong {
+                font-weight: 300;
+                font-size: 120%;
+                display: block;
+                
+                span {
+                    font-weight: 700;
+                }
+            }
+        }
+
+        &__action {
+            display: flex;
+            gap: 10px;
+        }
+
+        &__overlay {
+            background: rgba($charcoal-black, 0.6);
+            color: $white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: $base-border-radius;
+            position: absolute;
+            inset: 0;
+
+            .holder {
+                padding: math.div($gutter-width, 2);
+            }
+
+            .title {
+                font-size: 110%;
+                display: block;
+                margin-bottom: $gutter-width * 0.2;
+            }
+
+            .btn {
+                margin: 0 5px;
+
+                &__holder {
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

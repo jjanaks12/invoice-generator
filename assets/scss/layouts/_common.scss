@@ -1,0 +1,131 @@
+@use 'sass:math';
+
+#__nuxt {
+    position: relative;
+}
+
+.text--center {
+    text-align: center !important;
+}
+
+.text--right {
+    text-align: right !important;
+}
+
+.w--full {
+    width: 100% !important;
+    flex: 100% 0 0 !important;
+}
+
+.v--middle {
+    vertical-align: middle !important;
+}
+
+.container {
+    max-width: $base-max-width;
+    padding: 0 math.div($gutter-width, 2);
+    margin: 0 auto;
+}
+
+.form__group {
+    position: relative;
+    margin-bottom: $gutter-width;
+
+    label {
+        display: inline-block;
+        vertical-align: top;
+        margin-bottom: 5px;
+    }
+
+    [role=alert] {
+        color: $danger;
+        display: block;
+        padding-top: 5px;
+    }
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gutter-width;
+}
+
+.col-4 {
+    max-width: calc(25% - math.div($gutter-width, 2));
+    flex: 25% 1 0;
+}
+
+.col-6 {
+    max-width: calc(50% - math.div($gutter-width, 2));
+    flex: 50% 1 0;
+}
+
+.col-8 {
+    max-width: calc(75% - math.div($gutter-width, 2));
+    flex: 75% 1 0;
+}
+
+.alert {
+    padding: $gutter-width;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+
+    &::before {
+        content: '';
+        background: $mily-white;
+        border-radius: $base-border-radius;
+        border: 1px solid rgba($charcoal-black, 0.1);
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+    }
+
+    &::after {
+        content: '';
+        background: rgba($charcoal-black, 0.1);
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        z-index: -2;
+    }
+
+    &__title {
+        font-size: 2em;
+        display: block;
+    }
+
+    p {
+        margin-bottom: 2em;
+    }
+
+    &__action {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    &__close {
+        width: 40px;
+        height: 40px;
+        background: $mily-white;
+        color: $primary;
+        text-decoration: none;
+        font-size: 2.5em;
+        line-height: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba($charcoal-black, 0.1);
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%, -50%);
+    }
+}
