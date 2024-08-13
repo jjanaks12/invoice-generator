@@ -1,6 +1,6 @@
 # Nuxt 3 Minimal Starter
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+I am trying to make and app that could generate invoice. For now it could generate and download it as PDF. We can also save it for future use. I have used Nuxt 3 with Vue 3. For storage i have used Pinia with persisted state to save invoices on localstorage. Printd to use HTML and CSS to save as PDF. Vee-validate and Yup for validation. And finally moment for handling date and time.
 
 ## Setup
 
@@ -38,7 +38,7 @@ yarn dev
 bun run dev
 ```
 
-## Production
+## Productiona
 
 Build the application for production:
 
