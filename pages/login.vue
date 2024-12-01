@@ -1,12 +1,18 @@
 <script setup lang="ts">
     import { ErrorMessage, Field, Form } from 'vee-validate'
+    import Brand from '~/components/brand.vue'
 
     import { formSchema } from '~/lib/validation-schemas/LoginSchema'
-    
-    const { appName } = useRuntimeConfig()
+
+    const { public: { appName } } = useRuntimeConfig()
 
     definePageMeta({
-        layout: 'simple'
+        layout: 'simple',
+        middleware: 'auth',
+        auth: {
+            unauthenticatedOnly: true,
+            navigateAuthenticatedTo: '/dashboard'
+        }
     })
 
     useHead({
@@ -19,7 +25,10 @@
 </script>
 
 <template>
-    <Form action="#" @submit="formSubmit" :validation-schema="formSchema">
+    <Form class="account__form" action="#" @submit="formSubmit" :validation-schema="formSchema">
+        <div class="text--center">
+            <Brand />
+        </div>
         <h1>Sign in</h1>
         <div class="form__group">
             <label for="lf__email">Email</label>
@@ -34,8 +43,8 @@
         <div class="text--right">
             <button type="submit" class="btn btn__primary">Sign in</button>
         </div>
-        <span class="seperator">OR</span>
-        <div class="">
+        <div class="account__action">
+            <span class="seperator">OR</span>
             <p>No account? <NuxtLink to="/register">Sign up</NuxtLink> here</p>
         </div>
     </Form>

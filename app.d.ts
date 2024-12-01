@@ -41,3 +41,8 @@ type CurrencyDetail = {
 type Currency = {
     [propname: string]: CurrencyDetail
 }
+
+type SuccessResponse<T> = {
+    status: 'success',
+    response: T | string
+}

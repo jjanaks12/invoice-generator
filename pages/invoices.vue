@@ -6,7 +6,7 @@
   const deleteId = ref<number | null>(null)
 
   const deleteInvoice = () => {
-    if (deleteId.value)
+    if (deleteId.value != null && deleteId.value >= 0)
       removeInvoice(deleteId.value)
         .then(() => {
           deleteId.value = null
@@ -26,12 +26,14 @@
             <div class="invoice__item" v-for="(invoiceItem, index) in invoices">
               <div class="invoice__item__detail">
                 <strong>To <span>{{ invoiceItem.to_name }}</span></strong>
+                <em>{{ invoiceItem.date }}</em>
               </div>
               <div class="invoice__item__action">
                 <a href="#" class="btn btn__danger btn--outline btn--xs" @click.prevent="deleteId = index">Delete</a>
                 <NuxtLink :to="{ name: 'generate-invoice', query: { index } }" class="btn btn__secondary btn--xs">Load
                 </NuxtLink>
-                <a href="#" class="btn btn__info btn--xs btn--disabled" disabled @click.prevent="deleteId = index">Sync</a>
+                <a href="#" class="btn btn__info btn--xs btn--disabled" disabled
+                  @click.prevent="deleteId = index">Sync</a>
               </div>
               <div class="invoice__item__overlay" v-if="deleteId == index">
                 <div class="holder">

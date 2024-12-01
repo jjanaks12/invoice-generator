@@ -1,0 +1,28 @@
+.account {
+  &__form {
+    background: $mily-white;
+    width: 100%;
+    max-width: 835px;
+    padding: $gutter-width;
+    margin: 0 auto;
+    border-radius: $base-border-radius;
+
+    .btn {
+      width: 180px;
+      margin-bottom: $gutter-width;
+    }
+
+    .logo {
+      margin-bottom: $gutter-width;
+    }
+  }
+
+  &__action {
+    text-align: center;
+
+    a {
+      color: $primary;
+      font-weight: 600;
+    }
+  }
+}

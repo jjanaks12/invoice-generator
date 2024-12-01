@@ -3,14 +3,19 @@
 
   import { formSchema } from '~/lib/validation-schemas/RegisterSchema'
 
-  const { appName } = useRuntimeConfig()
+  const { public: { appName } } = useRuntimeConfig()
 
   useHead({
     title: 'Register :: ' + appName
   })
 
   definePageMeta({
-    layout: 'simple'
+    layout: 'simple',
+    middleware: 'auth',
+    auth: {
+      unauthenticatedOnly: true,
+      navigateAuthenticatedTo: '/dashboard'
+    }
   })
 
   const formSubmit = (values: any) => {
@@ -19,7 +24,10 @@
 </script>
 
 <template>
-  <Form action="#" :validation-schema="formSchema" @submit="formSubmit">
+  <Form class="account__form" action="#" :validation-schema="formSchema" @submit="formSubmit">
+    <div class="text--center">
+      <Brand />
+    </div>
     <h1>Sign Up</h1>
     <div class="row">
       <div class="col-4">
@@ -43,22 +51,33 @@
           <ErrorMessage name="last_name" />
         </div>
       </div>
-    </div>
-    <div class="form__group">
-      <label for="rf__email">Email</label>
-      <Field type="email" id="rf__email" name="email" />
-      <ErrorMessage name="email" />
-    </div>
-    <div class="form__group">
-      <label for="rf__password">Password</label>
-      <Field type="password" id="rf__password" name="password" />
-      <ErrorMessage name="password" />
+      <div class="col-12">
+        <div class="form__group">
+          <label for="rf__email">Email</label>
+          <Field type="email" id="rf__email" name="email" />
+          <ErrorMessage name="email" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form__group">
+          <label for="rf__password">Password</label>
+          <Field type="password" id="rf__password" name="password" />
+          <ErrorMessage name="password" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form__group">
+          <label for="rf__confirm_password">Confirm your password</label>
+          <Field type="password" id="rf__confirm_password" name="confirm_password" />
+          <ErrorMessage name="confirm_password" />
+        </div>
+      </div>
     </div>
     <div class="text--right">
       <button type="submit" class="btn btn__primary">Sign in</button>
     </div>
-    <span class="seperator">OR</span>
-    <div class="">
+    <div class="account__action">
+      <span class="seperator">OR</span>
       <p>Already have and account? <NuxtLink to="/login">Sign in</NuxtLink> here.</p>
     </div>
   </Form>

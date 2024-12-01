@@ -17,7 +17,8 @@ $base-font-size: 16px;
 $base-line-height: 1.4;
 $arial: Arial, Helvetica, sans-serif;
 $arial-black: "Arial Black", Helvetica, sans-serif;
-$base-sans-serif-font: $arial;
+$inter: "Inter", $arial;
+$base-sans-serif-font: $inter;
 
 //= Container
 $base-max-width: 1200px;

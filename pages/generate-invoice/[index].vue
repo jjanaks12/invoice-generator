@@ -1,5 +1,9 @@
 <script lang="ts" setup>
     import InvoiceForm from '@/components/invoice/form.vue'
+    
+    /* definePageMeta({
+        middleware: 'auth'
+    }) */
 
     const route = useRoute()
     const index = ref<number | undefined>(undefined)

@@ -9,6 +9,8 @@ export const useInvoiceStore = defineStore('invoice', () => {
   const totolInvoices = computed(() => invoices.value.length)
 
   const removeInvoice = (index: number) => new Promise((resolve) => {
+    console.log(index);
+    
     invoices.value.splice(index, 1)
     resolve(true)
   })

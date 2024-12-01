@@ -16,6 +16,8 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
+    font-weight: 900;
+    letter-spacing: 0.02em;
     margin: 0 0 $gutter-width;
 }
 
