@@ -38,6 +38,11 @@
         pointer-events: none;
         opacity: 0.6;
     }
+
+    svg {
+        vertical-align: middle;
+        margin-top: -5px;
+    }
 }
 
 .btn__primary {
@@ -147,5 +152,35 @@
             background: $danger;
             color: $black;
         }
+    }
+}
+
+.loading {
+    position: relative;
+    opacity: 0.5;
+    pointer-events: none;
+
+    &::before {
+        content: '';
+        width: 24px;
+        aspect-ratio: 1;
+        animation: spin 1s ease-in-out infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin: -5px 5px 0 0;
+        border-radius: 50%;
+        border-width: 3px;
+        border-style: solid;
+        border-color: $white transparent;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

@@ -50,4 +50,9 @@ export const formSchema = Yup.object({
             return schema.required()
         return schema
     }),
+    bank_name: Yup.string().required().label('Bank name'),
+    bank_branch: Yup.string().required().label('Bank branch name'),
+    bank_account_holder_name: Yup.string().required().label('Account holder name'),
+    bank_account_number: Yup.string().required().label('Account number'),
+    bank_swift_code: Yup.string().required().label('Swift code'),
 })

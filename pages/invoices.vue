@@ -1,6 +1,11 @@
 <script lang="ts" setup>
   import { useInvoiceStore } from '@/store/invoice'
 
+  definePageMeta({
+    layout: 'default',
+    middleware: 'auth'
+  })
+
   const { invoices } = storeToRefs(useInvoiceStore())
   const { removeInvoice } = useInvoiceStore()
   const deleteId = ref<number | null>(null)

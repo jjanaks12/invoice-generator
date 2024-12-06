@@ -15,11 +15,22 @@
     auth: {
       unauthenticatedOnly: true,
       navigateAuthenticatedTo: '/dashboard'
-    }
+    },
+    path: '/register'
   })
 
-  const formSubmit = (values: any) => {
-    console.log(values)
+  const isLoading = ref(false)
+
+  const formSubmit = async (values: any) => {
+    isLoading.value = true
+    
+    await $fetch('/api/auth/register', {
+      body: values,
+      method: 'POST'
+    })
+      .finally(() => {
+        isLoading.value = false
+      })
   }
 </script>
 
@@ -74,7 +85,7 @@
       </div>
     </div>
     <div class="text--right">
-      <button type="submit" class="btn btn__primary">Sign in</button>
+      <button type="submit" :class="{ 'btn btn__primary': true, loading: isLoading }">Sign in</button>
     </div>
     <div class="account__action">
       <span class="seperator">OR</span>

@@ -11,6 +11,8 @@
     import Confirm from '@/components/confirm.vue'
     import Preview from '~/components/invoice/preview.client.vue'
 
+    import type { InvoiceDetail, InvoiceItem } from '~/app'
+
     useHead({
         title: 'Invoice Generator'
     })
@@ -66,8 +68,6 @@
 
     const onAlertConfirm = () => {
         if (fieldLength.value > 160 && formData.value) {
-            console.log(isInInvoiceList(formData.value));
-
             if (!isInInvoiceList(formData.value))
                 invoices.value.push(formData.value)
             else
@@ -134,11 +134,51 @@
     <Form action="#" ref="invoiceForm" @submit="submitHandler" :validation-schema="formSchema" class="invoice__form"
         v-slot="{ values }">
         <div class="row">
+            <div class="col-12">
+                <legend>Bank Details</legend>
+            </div>
+            <div class="col-6">
+                <div class="form__group">
+                    <label for="f__bank_name">Bank name</label>
+                    <Field :readonly="isLoaded" type="text" id="f__bank_name" name="bank_name"
+                        :value="formData?.bank_name" />
+                    <ErrorMessage name="bank_name" />
+                </div>
+                <div class="form__group">
+                    <label for="f__bank_branch">Bank branch name</label>
+                    <Field :readonly="isLoaded" type="text" id="f__bank_branch" name="bank_branch"
+                        :value="formData?.bank_branch" />
+                    <ErrorMessage name="bank_branch" />
+                </div>
+                <div class="form__group">
+                    <label for="f__bank_account_holder_name">Account holder name</label>
+                    <Field :readonly="isLoaded" type="text" id="f__bank_account_holder_name"
+                        name="bank_account_holder_name" :value="formData?.bank_account_holder_name" />
+                    <ErrorMessage name="bank_account_holder_name" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form__group">
+                    <label for="f__bank_account_number">Account number</label>
+                    <Field :readonly="isLoaded" type="text" id="f__bank_account_number" name="bank_account_number"
+                        :value="formData?.bank_account_number" />
+                    <ErrorMessage name="bank_account_number" />
+                </div>
+                <div class="form__group">
+                    <label for="f__bank_swift_code">Account number</label>
+                    <Field :readonly="isLoaded" type="text" id="f__bank_swift_code" name="bank_swift_code"
+                        :value="formData?.bank_swift_code" />
+                    <ErrorMessage name="bank_swift_code" />
+                </div>
+            </div>
+            <div class="col-12">
+                <legend>Personal Details</legend>
+            </div>
             <div class="col-8">
                 <div class="row">
                     <div class="col-6">
                         <fieldset>
-                            <legend>From</legend>
+                            <strong class="title">From</strong>
                             <div class="form__group">
                                 <label for="f__from_name">Name</label>
                                 <Field :readonly="isLoaded" type="text" id="f__from_name" name="from_name"
@@ -204,7 +244,7 @@
                     </div>
                     <div class="col-6">
                         <fieldset>
-                            <legend>Bill to</legend>
+                            <strong class="title">Bill to</strong>
                             <div class="form__group">
                                 <label for="f__to_name">Name</label>
                                 <Field :readonly="isLoaded" type="text" id="f__to_name" name="to_name"
@@ -245,7 +285,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form__group">
-                                            <label for="f__to_city">Country</label>
+                                            <label for="f__to_country">Country</label>
                                             <Field :readonly="isLoaded" as="select" id="f__to_country" name="to_country"
                                                 :value="formData?.to_country">
                                                 <option value="">Select a country</option>
@@ -258,7 +298,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form__group">
-                                            <label for="f__to_city">Post code</label>
+                                            <label for="f__to_post_code">Post code</label>
                                             <Field :readonly="isLoaded" type="text" id="f__to_post_code"
                                                 name="to_post_code" :value="formData?.to_post_code" />
                                             <ErrorMessage name="to_post_code" />
@@ -328,7 +368,14 @@
                     </Field>
                     <ErrorMessage name="currency" />
                 </div>
-                <button type="submit" class="btn btn--block btn__primary">Preview</button>
+                <button type="submit" class="btn btn--block btn__primary">
+                    <MdiIcon size="24" icon="mdiFileEye" />
+                    Preview
+                </button>
+                <NuxtLink to="/invoices" class="btn btn--block btn__primary btn--outline">
+                    <MdiIcon size="24" icon="mdiArrowLeft" />
+                    Back
+                </NuxtLink>
             </div>
         </div>
     </Form>

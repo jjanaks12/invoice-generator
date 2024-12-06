@@ -1,9 +1,10 @@
 <script lang="ts" setup>
   import Printd from 'printd'
+  import type { InvoiceItem, InvoiceDetail } from '~/app'
 
   interface InvoicePreviewProps {
     fields: InvoiceItem[]
-    data: InvoideDetail
+    data: InvoiceDetail
   }
 
   const props = defineProps<InvoicePreviewProps>()
@@ -21,15 +22,32 @@
 
 <template>
   <div :class="{ 'invoice__preview': true, 'invoice__preview--show': isShowing }">
-    <table style="width: 750px; height: 50vh; letter-spacing: 0.01em; font-family: Arial, Helvetica, sans-serif; margin: 0 auto 40px; background: #ededed;" ref="invoice">
+    <table
+      style="width: 750px; height: 50vh; letter-spacing: 0.01em; font-family: Arial, Helvetica, sans-serif; margin: 0 auto 40px; background: #ededed;"
+      ref="invoice">
       <tbody>
         <tr>
-          <td colspan="3" style="height: 1%; padding: 20px 15px 0;">
-            <dl style="color: #878787; margin: 0;">
-              <dt style="font-weight: 700;">Date</dt>
+          <td style="height: 1%; padding: 20px 15px 0; vertical-align: top;">
+            <dl style="font-size: 11px; color: #444; margin: 0;">
+              <dt style="color: #878787; font-weight: 400;">Date</dt>
               <dd style="margin-bottom: 5px;">{{ data.date }}</dd>
-              <dt style="font-weight: 700;">Invoice no</dt>
+              <dt style="color: #878787; font-weight: 400;">Invoice no</dt>
               <dd>{{ data.invoice_no }}</dd>
+            </dl>
+          </td>
+          <td>&nbsp;</td>
+          <td style="height: 1%; text-align: right; padding: 20px 15px 0;">
+            <dl style="font-size: 11px; color: #444; margin: 0;">
+              <dt style="color: #878787; font-weight: 400;">Bank name</dt>
+              <dd style="margin-bottom: 5px;">{{ data.bank_name }}</dd>
+              <dt style="color: #878787; font-weight: 400;">Bank branch name</dt>
+              <dd style="margin-bottom: 5px;">{{ data.bank_branch }}</dd>
+              <dt style="color: #878787; font-weight: 400;">Bank swift code</dt>
+              <dd style="margin-bottom: 5px;">{{ data.bank_swift_code }}</dd>
+              <dt style="color: #878787; font-weight: 400;">Account holder name</dt>
+              <dd style="margin-bottom: 5px;">{{ data.bank_account_holder_name }}</dd>
+              <dt style="color: #878787; font-weight: 400;">Account number</dt>
+              <dd>{{ data.bank_account_number }}</dd>
             </dl>
           </td>
         </tr>
@@ -78,11 +96,11 @@
                     {{ field.description }}
                     <span style="color:#878787; font-size: 90%; display: block;">{{ field.addition_detail }}</span>
                   </td>
-                  <td style="text-align: center; padding: 15px 0; border-bottom: 1px solid #878787;">{{ field.rate }}
+                  <td style="text-align: center; padding: 15px 0; border-bottom: 1px solid #878787;">${{ field.rate }}
                   </td>
                   <td style="text-align: center; padding: 15px 0; border-bottom: 1px solid #878787;">{{ field.quantity
                     }}</td>
-                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">{{ field.rate *
+                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">${{ field.rate *
                     field.quantity }}</td>
                 </tr>
                 <tr>
@@ -90,7 +108,8 @@
                   <td colspan="2"
                     style="text-transform: uppercase; font-weight: bold; padding: 15px 0; border-bottom: 1px solid #878787;">
                     Total</td>
-                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">{{ data.currency }} {{ grandTotal }}
+                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">{{ data.currency }}
+                    {{ grandTotal }}
                   </td>
                 </tr>
               </tbody>

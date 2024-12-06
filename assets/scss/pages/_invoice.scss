@@ -29,11 +29,20 @@
         }
 
         legend {
-            font-weight: 700;
-            font-size: $base-font-size * 1.5;
+            font-size: $base-font-size * 0.85;
+            text-transform: uppercase;
             letter-spacing: 0.05em;
-            display: block;
-            margin-bottom: math.div($gutter-width, 2);
+            display: flex;
+            align-items: center;
+
+            &::after {
+                content: '';
+                height: 1px;
+                background: rgba($charcoal-black, 0.1);
+                flex-grow: 1;
+                display: block;
+                margin-left: $gutter-width;
+            }
         }
 
         td {
@@ -57,6 +66,17 @@
 
         .btn__holder {
             flex: 100% 1 1;
+        }
+
+        .btn {
+            margin-bottom: 20px;
+        }
+
+        .title {
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: $gutter-width;
         }
     }
 
@@ -95,7 +115,7 @@
                 font-weight: 300;
                 font-size: 120%;
                 display: block;
-                
+
                 span {
                     font-weight: 700;
                 }

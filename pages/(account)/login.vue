@@ -12,15 +12,37 @@
         auth: {
             unauthenticatedOnly: true,
             navigateAuthenticatedTo: '/dashboard'
-        }
+        },
+        path: '/login'
     })
 
     useHead({
         title: 'Login :: ' + appName
     })
+    const route = useRoute()
+    const router = useRouter()
+    const { signIn } = useAuth()
+
+    const isLoading = ref(false)
 
     const formSubmit = (values: any) => {
-        console.log(values)
+        isLoading.value = true
+
+        signIn('credentials', {
+            ...values,
+            redirect: false,
+            callbackUrl: '/dashboard'
+        })
+            .then(({ ok }: any) => {
+                if (ok)
+                    if (route.query.callbackUrl)
+                        router.push(route.query.callbackUrl as string)
+                    else
+                        router.push('/dashboard')
+            })
+            .finally(() => {
+                isLoading.value = false
+            })
     }
 </script>
 
@@ -41,7 +63,7 @@
             <ErrorMessage name="password" title="Password" />
         </div>
         <div class="text--right">
-            <button type="submit" class="btn btn__primary">Sign in</button>
+            <button type="submit" :class="{ 'btn btn__primary': true, loading: isLoading }">Sign in</button>
         </div>
         <div class="account__action">
             <span class="seperator">OR</span>

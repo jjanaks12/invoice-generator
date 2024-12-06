@@ -26,6 +26,12 @@ interface InvoiceDetail {
     to_state: string,
     to_country: string,
     to_post_code: string,
+
+    bank_name: string,
+    bank_branch: string,
+    bank_account_holder_name: string,
+    bank_account_number: string,
+    bank_swift_code: string,
 }
 
 type CurrencyDetail = {
@@ -42,7 +48,19 @@ type Currency = {
     [propname: string]: CurrencyDetail
 }
 
-type SuccessResponse<T> = {
-    status: 'success',
-    response: T | string
+export type APIError = {
+    [propsName: string]: string[]
 }
+
+export type APISuccessResponse<T> = {
+    status: 'success',
+    data: T | null
+}
+
+export type APIErrorResponse = {
+    status: 'failed',
+    message: string,
+    errors?: APIError
+}
+
+export type APIResponse<T> = APISuccessResponse<T> | APIErrorResponse

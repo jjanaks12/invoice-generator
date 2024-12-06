@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { InvoiceDetail } from '~/app'
 
 export const useInvoiceStore = defineStore('invoice', () => {
   const invoices = ref<InvoiceDetail[]>([])

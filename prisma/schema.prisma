@@ -16,7 +16,10 @@ datasource db {
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
-  name          String?
+  first_name    String
+  middle_name   String?
+  last_name     String
+  password      String
   emailVerified DateTime?
   deletedAt     DateTime?
   createdAt     DateTime  @default(now())

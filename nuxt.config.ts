@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     'nuxt-lazy-hydrate',
     '@vue-email/nuxt',
     '@sidebase/nuxt-auth',
-    'nuxt-nodemailer'
+    'nuxt-nodemailer',
+    'nuxt-mdi'
   ],
 
   css: ['@/assets/scss/main.scss'],

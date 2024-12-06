@@ -34,14 +34,14 @@
 
   li {
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
 
     + li {
       margin-left: 20px;
     }
   }
 
-  a {
+  a:not(.btn) {
     color: $black;
     text-decoration: none;
 
