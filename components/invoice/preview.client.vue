@@ -1,22 +1,44 @@
 <script lang="ts" setup>
   import Printd from 'printd'
-  import type { InvoiceItem, InvoiceDetail } from '~/app'
 
   interface InvoicePreviewProps {
     fields: InvoiceItem[]
     data: InvoiceDetail
+    onClose?: Function
   }
 
   const props = defineProps<InvoicePreviewProps>()
   const isShowing = defineModel('show')
 
   const invoice = ref()
+  const isLoading = ref(false)
 
   const grandTotal = computed(() => props.fields.reduce((a, item) => a + (item.quantity * item.rate), 0))
 
   const downloadPDF = () => {
-    const d = new Printd()
-    d.print(invoice.value)
+    isLoading.value = true
+
+    $fetch('/api/history', {
+      method: 'POST',
+      body: {
+        fields: props.fields,
+        data: props.data
+      }
+    })
+      .then(() => {
+        const d = new Printd()
+        d.print(invoice.value)
+      })
+      .finally(() => {
+        isLoading.value = false
+      })
+  }
+
+  const closePDFViewer = () => {
+    isShowing.value = false
+
+    if (props.onClose)
+      props.onClose()
   }
 </script>
 
@@ -125,7 +147,8 @@
       </tfoot>
     </table>
     <div class="invoice__preview__action">
-      <a href="#" class="btn btn__primary btn--outline" @click.prevent="isShowing = false">&times; Close</a>
+      <a href="#" :class="{ 'btn btn__primary btn--outline': true, 'loading': isLoading }"
+        @click.prevent="closePDFViewer">&times; Close</a>
       <a href="#" class="btn btn__primary" @click.prevent="downloadPDF">Print</a>
     </div>
   </div>

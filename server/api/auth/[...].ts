@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 
 export default NuxtAuthHandler({
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NUXT_AUTH_SECRET,
   pages: {
     signIn: '/login'
   },
@@ -60,7 +60,26 @@ export default NuxtAuthHandler({
     strategy: 'jwt'
   },
   callbacks: {
+    jwt: ({ token, account, profile }) => {
+      if (account) {
+        token.sessionToken = account.session_token
+
+      }
+      return token
+    },
     session: async ({ session, token }) => {
+      if (token.email) {
+        const userResponse = await $fetch(`/api/auth/me`, {
+          method: 'POST',
+          body: {
+            email: token.email
+          }
+        })
+
+        if (userResponse.status == 'success')
+          session.user = userResponse.data as any
+      }
+
       return Promise.resolve(session)
     }
   }

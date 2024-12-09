@@ -11,8 +11,6 @@
     import Confirm from '@/components/confirm.vue'
     import Preview from '~/components/invoice/preview.client.vue'
 
-    import type { InvoiceDetail, InvoiceItem } from '~/app'
-
     useHead({
         title: 'Invoice Generator'
     })
@@ -309,7 +307,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <fieldset class="w--full">
+                <fieldset class="w--full mt-16">
                     <table>
                         <thead>
                             <tr>

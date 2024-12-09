@@ -1,6 +1,6 @@
 <script setup lang="ts">
     const { public: { appName } } = useRuntimeConfig()
-    const { status, signOut } = useAuth()
+    const { status, signOut, data } = useAuth()
 </script>
 
 <template>
@@ -13,18 +13,18 @@
                 <ul class="main__nav">
                     <template v-if="status == 'unauthenticated'">
                         <li>
-                            <NuxtLink to="register">Register</NuxtLink>
+                            <NuxtLink to="/register">Register</NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink to="login">Login</NuxtLink>
+                            <NuxtLink to="/login">Login</NuxtLink>
                         </li>
                     </template>
                     <template v-else>
                         <li>
-                            <NuxtLink to="invoices">Invoice List</NuxtLink>
+                            <NuxtLink to="/invoices">Invoice list</NuxtLink>
                         </li>
                         <li>
-                            <a href="#" class="btn btn__danger btn--xs" @click.prevent="() => signOut()">log out</a>
+                            <NuxtLink to="/history">History</NuxtLink>
                         </li>
                     </template>
                 </ul>
@@ -32,6 +32,10 @@
                     v-if="status == 'authenticated'">
                     Generate Invoice
                 </NuxtLink>
+                <span class="user" v-if="status == 'authenticated'">
+                    <strong>{{ data?.user?.first_name }} {{ data?.user.last_name }}</strong>
+                    <a href="#" @click.prevent="() => signOut()">log out</a>
+                </span>
             </nav>
         </div>
     </header>

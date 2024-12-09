@@ -27,6 +27,8 @@ model User {
 
   Session       Session[]
   Authenticator Authenticator[]
+
+  @@map("users")
 }
 
 model Session {
@@ -41,6 +43,7 @@ model Session {
   Authenticator Authenticator[]
 
   @@index([userId])
+  @@map("sessions")
 }
 
 model VerificationToken {
@@ -49,6 +52,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 
 // Optional for WebAuthn support
@@ -67,4 +71,14 @@ model Authenticator {
   sessionId String?
 
   @@id([userId, credentialID])
+  @@map("authenticators")
+}
+
+model InvoiceHistory {
+  id        String   @id @default(cuid())
+  date      DateTime @default(now())
+  details   Json
+  createdAt DateTime @default(now())
+
+  @@map("invoice_historys")
 }

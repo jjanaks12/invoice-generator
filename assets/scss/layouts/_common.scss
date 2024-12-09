@@ -72,6 +72,22 @@
     flex: calc(100% - $gutter-width) 1 0;
 }
 
+.mt-4 {
+    margin-top: 16px;
+}
+
+.mt-8 {
+    margin-top: 32px;
+}
+
+.mt-12 {
+    margin-top: 48px;
+}
+
+.mt-16 {
+    margin-top: 64px;
+}
+
 .alert {
     padding: $gutter-width;
     position: fixed;
@@ -156,5 +172,20 @@
 
     &::after {
         margin-left: 10px;
+    }
+}
+
+.user {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+    margin-left: 20px;
+
+    strong {
+        display: block;
+    }
+
+    a {
+        color: inherit;
     }
 }

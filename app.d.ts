@@ -48,19 +48,19 @@ type Currency = {
     [propname: string]: CurrencyDetail
 }
 
-export type APIError = {
+type APIError = {
     [propsName: string]: string[]
 }
 
-export type APISuccessResponse<T> = {
+type APISuccessResponse<T> = {
     status: 'success',
     data: T | null
 }
 
-export type APIErrorResponse = {
+type APIErrorResponse = {
     status: 'failed',
     message: string,
     errors?: APIError
 }
 
-export type APIResponse<T> = APISuccessResponse<T> | APIErrorResponse
+type APIResponse<T> = APISuccessResponse<T> | APIErrorResponse
