@@ -189,3 +189,33 @@
         color: inherit;
     }
 }
+
+.list {
+    @extend %listreset;
+    color: rgba($info, 0.3);
+
+    &__item {
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__title {
+            color: $charcoal-black;
+            font-size: 160%;
+            font-weight: 400;
+            display: block;
+        }
+
+        time {
+            display: block;
+        }
+
+        a {
+            color: $primary;
+            text-decoration: none;
+            font-size: 90%;
+        }
+    }
+}

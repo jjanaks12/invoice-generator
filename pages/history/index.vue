@@ -1,7 +1,15 @@
 <script lang="ts" setup>
   import type { InvoiceHistory } from '@prisma/client'
-  import { formatDate } from '~/lib/formateDate';
+  import { formatDate, fromNow } from '~/lib/filters/formateDate'
+  const { public: { appName } } = useRuntimeConfig()
 
+  useHead({
+    title: `Invoice history :: ${appName}`
+  })
+
+  definePageMeta({
+    middleware: 'auth'
+  })
 
   const historyList = ref<InvoiceHistory[]>([])
 
@@ -21,10 +29,14 @@
         <h1>Your invoice history</h1>
       </header>
       <div class="invoice__section__body">
-        <ul>
-          <li v-for="history in historyList">
-            <NuxtLink :to="{ name: 'history-id', params: { id: history.id } }">{{ history.id }}</NuxtLink>
-            <time :datetime="formatDate(history.date, 'YYYY-MM-DD HH:mm')">{{ formatDate(history.date) }}</time>
+        <ul class="list">
+          <li v-for="history in historyList" class="list__item">
+            <NuxtLink :to="{ name: 'history-id', params: { id: history.id } }">
+              {{ history.id }}
+              <MdiIcon preserveAspectRatio="xMidYMid meet" size="12" icon="mdiLinkVariant" />
+            </NuxtLink>
+            <strong class="list__item__title">To {{ history.details.data.to_name }}</strong>
+            <time :datetime="formatDate(history.date, 'YYYY-MM-DD HH:mm')">{{ fromNow(history.date) }}</time>
           </li>
         </ul>
       </div>

@@ -8,6 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -25,8 +29,10 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  Session       Session[]
-  Authenticator Authenticator[]
+  Session        Session[]
+  Authenticator  Authenticator[]
+  InvoiceHistory InvoiceHistory[]
+  invoices       Invoice[]
 
   @@map("users")
 }
@@ -74,11 +80,77 @@ model Authenticator {
   @@map("authenticators")
 }
 
+model Currency {
+  id             String @id @default(cuid())
+  symbol         String
+  name           String
+  symbol_native  String
+  decimal_digits Int
+  rounding       Int
+  code           String
+  name_plural    String
+
+  invoices Invoice[]
+
+  @@map("currencies")
+}
+
+model Invoice {
+  id                       String   @id @default(cuid())
+  date                     DateTime @default(now())
+  invoice_no               String   @unique
+  from_name                String
+  from_email               String
+  from_address             String
+  from_city                String
+  from_state               String
+  from_country             String
+  from_post_code           String
+  to_name                  String
+  to_email                 String
+  to_address               String
+  to_city                  String
+  to_state                 String
+  to_country               String
+  to_post_code             String
+  bank_name                String
+  bank_branch              String
+  bank_account_holder_name String
+  bank_account_number      String
+  bank_swift_code          String
+
+  currencyId String
+  currency   Currency @relation(fields: [currencyId], references: [id])
+  userId     String
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  invoice_items InvoiceItem[]
+
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id              String  @id @default(cuid())
+  description     String
+  addition_detail String
+  rate            Decimal
+  quantity        Int
+  invoiceId       String
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_items")
+}
+
 model InvoiceHistory {
   id        String   @id @default(cuid())
   date      DateTime @default(now())
+  /// [JSONInvoiceDetail]
   details   Json
+  userId    String?
   createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("invoice_historys")
 }

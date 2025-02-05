@@ -2,7 +2,6 @@ import { PrismaClient, User } from "@prisma/client"
 import { ValidationError } from "yup"
 import bcrypt from 'bcrypt'
 
-import { APIError, APIResponse } from "~/app"
 import { formSchema } from "~/lib/validation-schemas/RegisterSchema"
 
 const prisma = new PrismaClient()

@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
   const history = await prisma.invoiceHistory.create({
     data: {
       date: moment().utc().toISOString(),
+      userId: body.user_id,
       details
     }
   })

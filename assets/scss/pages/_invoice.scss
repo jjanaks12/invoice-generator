@@ -108,6 +108,15 @@
         border-bottom: 1px solid rgba($charcoal-black, 0.1);
         position: relative;
 
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
         &__detail {
             flex-grow: 1;
 

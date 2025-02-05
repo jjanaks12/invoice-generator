@@ -64,3 +64,13 @@ type APIErrorResponse = {
 }
 
 type APIResponse<T> = APISuccessResponse<T> | APIErrorResponse
+
+
+declare global {
+    namespace PrismaJson {
+        type JSONInvoiceDetail = {
+            data: InvoiceDetail
+            fields: InvoiceItem[]
+        }
+    }
+}

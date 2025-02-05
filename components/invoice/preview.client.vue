@@ -5,7 +5,10 @@
     fields: InvoiceItem[]
     data: InvoiceDetail
     onClose?: Function
+    showPrintBtn?: boolean
   }
+
+  // const { data } = useAuth()
 
   const props = defineProps<InvoicePreviewProps>()
   const isShowing = defineModel('show')
@@ -22,7 +25,10 @@
       method: 'POST',
       body: {
         fields: props.fields,
-        data: props.data
+        data: {
+          user_id: data.value?.user?.id,
+          ...props.data
+        }
       }
     })
       .then(() => {
@@ -149,7 +155,7 @@
     <div class="invoice__preview__action">
       <a href="#" :class="{ 'btn btn__primary btn--outline': true, 'loading': isLoading }"
         @click.prevent="closePDFViewer">&times; Close</a>
-      <a href="#" class="btn btn__primary" @click.prevent="downloadPDF">Print</a>
+      <a href="#" class="btn btn__primary" @click.prevent="downloadPDF" v-if="showPrintBtn">Print</a>
     </div>
   </div>
 </template>
