@@ -1,15 +1,17 @@
 <script lang="ts" setup>
     import { onMounted, ref } from 'vue'
     import { Form, Field, ErrorMessage } from 'vee-validate'
+    import type { Currency, Invoice } from '@prisma/client'
     import moment from 'moment'
 
     import countries from '@/lib/country'
-    import { currencies, getCurrency } from '@/lib/currency'
     import { formSchema } from '~/lib/validation-schemas/InvoiceSchema'
     import { useInvoiceStore } from '@/store/invoice'
 
     import Confirm from '@/components/confirm.vue'
     import Preview from '~/components/invoice/preview.client.vue'
+    import type { InvoiceItem } from '~/app'
+    import { useCurrencyStore } from '~/store/currency'
 
     useHead({
         title: 'Invoice Generator'
@@ -17,21 +19,52 @@
 
     interface FormProps {
         invoiceIndex?: number
+        invoiceId?: string
     }
 
+    const { data } = useAuth()
     const props = defineProps<FormProps>()
     const { invoices, fieldLength, totolInvoices } = storeToRefs(useInvoiceStore())
     const { getInvoice, isInInvoiceList } = useInvoiceStore()
+    const { currencies } = storeToRefs(useCurrencyStore())
 
-    const minDate = moment().local().format('YYYY-MM-DD')
-    const maxDate = moment().local().add(5, 'days').format('YYYY-MM-DD')
+    const minDate = moment().local()
+    const maxDate = moment().local().add(5, 'days')
 
     const fields = ref<InvoiceItem[]>([])
     const showAlert = ref(false)
     const showPreview = ref(false)
     const showErrorALert = ref(false)
     const invoiceForm = ref()
-    const formData = ref<InvoiceDetail>()
+    const formData = ref<Invoice>({
+        date: minDate.toDate(),
+        invoice_no: '',
+        from_name: '',
+        from_email: '',
+        from_address: '',
+        from_city: '',
+        from_state: '',
+        from_country: '',
+        from_post_code: '',
+
+        to_name: '',
+        to_email: '',
+        to_address: '',
+        to_city: '',
+        to_state: '',
+        to_country: '',
+        to_post_code: '',
+
+        bank_account_holder_name: '',
+        bank_account_number: '',
+        bank_branch: '',
+        bank_name: '',
+        bank_swift_code: '',
+        currencyId: '',
+        id: '',
+        userId: ''
+    })
+    const currency = ref<Currency>()
 
     const removeItem = (index: number) => {
         if (fields.value.length == 1) {
@@ -54,12 +87,12 @@
         showPreview.value = true
 
         if (fieldLength.value > 160 && !isLoaded.value) {
-            formData.value = values as InvoiceDetail
+            formData.value = values as Invoice
             showAlert.value = true
         }
 
         if (formData.value && isLoaded.value) {
-            formData.value.date = minDate
+            formData.value.date = minDate.toDate()
             formData.value.invoice_no = invoiceNo.value
         }
     }
@@ -73,10 +106,16 @@
         }
     }
 
-    const checkForProps = () => {
+    const checkForProps = async () => {
         if (typeof props.invoiceIndex != 'undefined' && props.invoiceIndex >= 0) {
             formData.value = getInvoice(props.invoiceIndex)
         }
+        if (typeof props.invoiceId != 'undefined' && props.invoiceId) {
+            formData.value = await $fetch<Invoice>(`/api/invoice/${props.invoiceId}`)
+        }
+
+        if ((typeof props.invoiceIndex != 'undefined' && props.invoiceIndex >= 0) || (typeof props.invoiceId != 'undefined' && props.invoiceId))
+            currency.value = await $fetch<Currency>(`/api/currency/${formData.value?.currencyId}`)
     }
 
     const invoiceNo = computed(() => {
@@ -111,11 +150,10 @@
         })
     }
 
-    const isLoaded = computed(() => typeof props.invoiceIndex != 'undefined' && props.invoiceIndex >= 0)
+    const isLoaded = computed(() => (typeof props.invoiceIndex != 'undefined' && props.invoiceIndex >= 0) || (typeof props.invoiceId != 'undefined' && props.invoiceId != null))
 
     onMounted(() => {
         addItem()
-        checkForProps()
     })
 
     watch(props, () => {
@@ -130,7 +168,7 @@
 
 <template>
     <Form action="#" ref="invoiceForm" @submit="submitHandler" :validation-schema="formSchema" class="invoice__form"
-        v-slot="{ values }">
+        v-slot="{ values }" v-if="formData">
         <div class="row">
             <div class="col-12">
                 <legend>Bank Details</legend>
@@ -333,8 +371,7 @@
                                     <input type="number" class="text--right" v-model="item.quantity">
                                 </td>
                                 <td class="text--center total">
-                                    {{ values.currency }}
-                                    {{ getCurrency(values.currency).symbol }} {{ item.rate * item.quantity }}
+                                    {{ currency?.symbol }} {{ item.rate * item.quantity }}
                                 </td>
                             </tr>
                             <tr>
@@ -350,7 +387,8 @@
             <div class="col-4">
                 <div class="form__group">
                     <label for="f__date">Date</label>
-                    <Field type="date" id="f__date" name="date" :min="minDate" :max="maxDate" :value="minDate" />
+                    <Field type="date" id="f__date" name="date" :min="minDate" :max="maxDate.format('YYYY-MM-DD')"
+                        :value="minDate" />
                     <ErrorMessage name="date" />
                 </div>
                 <div class="form__group">
@@ -361,11 +399,10 @@
                 </div>
                 <div class="form__group">
                     <label for="f__currency">Currency</label>
-                    {{ formData?.currency }}
                     <Field as="select" :class="{ 'disabled': isLoaded }" id="f__currency" name="currency"
-                        :value="formData?.currency">
+                        :value="formData?.currencyId">
                         <option value="">Select an currency</option>
-                        <option v-for="currency in currencies" :value="currency.symbol">
+                        <option v-for="currency in currencies" :value="currency.id">
                             {{ currency.symbol }}: {{ currency.name }}
                         </option>
                     </Field>
@@ -375,7 +412,7 @@
                     <MdiIcon preserveAspectRatio="xMidYMid meet" size="24" icon="mdiFileEye" />
                     Preview
                 </button>
-                <NuxtLink to="/invoices" class="btn btn--block btn__primary btn--outline">
+                <NuxtLink :to="{ name: 'dashboard-invoices' }" class="btn btn--block btn__primary btn--outline">
                     <MdiIcon preserveAspectRatio="xMidYMid meet" size="24" icon="mdiArrowLeft" />
                     Back
                 </NuxtLink>
@@ -387,5 +424,6 @@
         :on-cancel="() => { showAlert = false }" :on-confirm="onAlertConfirm" />
     <Confirm v-model:show="showErrorALert" status="danger" title="The Invoice You want to add already exists."
         :description="`Looks like you have already added for ${formData?.to_name} do you still want to add?`" />
-    <preview v-model:show="showPreview" v-if="formData" :fields="fields" show-print-btn :data="formData" />
+    <preview v-model:show="showPreview" v-if="formData" :fields="fields" show-print-btn :data="formData"
+        :user-id="data?.user?.id" />
 </template>

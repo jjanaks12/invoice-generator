@@ -4,9 +4,7 @@
 
 <template>
   <div class="text__center">
-    <div class="logo">
-      <NuxtLink to="/">{{ appName }}</NuxtLink>
-    </div>
+    <brand />
   </div>
   <main id="main">
     <slot />

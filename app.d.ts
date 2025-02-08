@@ -1,3 +1,5 @@
+import NextAuth from "next-auth"
+
 type Status = 'success' | 'info' | 'danger'
 
 interface InvoiceItem {
@@ -72,5 +74,15 @@ declare global {
             data: InvoiceDetail
             fields: InvoiceItem[]
         }
+    }
+}
+declare module "next-auth" {
+    /**
+     * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+     */
+    interface Session {
+        user?: {
+            id?: string
+        } & DefaultSession["user"]
     }
 }

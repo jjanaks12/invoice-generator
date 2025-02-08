@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+  import type { InvoiceItem } from '@prisma/client'
   import Printd from 'printd'
+  import type { InvoiceDetail } from '~/app'
 
   interface InvoicePreviewProps {
     fields: InvoiceItem[]
     data: InvoiceDetail
     onClose?: Function
     showPrintBtn?: boolean
+    userId: string
   }
 
   // const { data } = useAuth()
@@ -26,7 +29,7 @@
       body: {
         fields: props.fields,
         data: {
-          user_id: data.value?.user?.id,
+          user_id: props.userId,
           ...props.data
         }
       }

@@ -31,7 +31,7 @@
       <div class="invoice__section__body">
         <ul class="list">
           <li v-for="history in historyList" class="list__item">
-            <NuxtLink :to="{ name: 'history-id', params: { id: history.id } }">
+            <NuxtLink :to="`/dashboard/history/${history.id}`">
               {{ history.id }}
               <MdiIcon preserveAspectRatio="xMidYMid meet" size="12" icon="mdiLinkVariant" />
             </NuxtLink>

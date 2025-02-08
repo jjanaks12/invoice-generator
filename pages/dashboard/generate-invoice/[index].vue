@@ -7,11 +7,15 @@
 
     const route = useRoute()
     const index = ref<number | undefined>(undefined)
+    const id = ref<string | undefined>(undefined)
     const invoiceForm = ref()
 
-    watch(() => route.fullPath, () => {
+    const routeInit = () => {
         index.value = route.query.index ? parseInt(route.query.index as string) : undefined
-    }, {
+        id.value = route.query.id ? route.query.id as string : undefined
+    }
+
+    watch(() => route.fullPath, routeInit, {
         deep: true,
         immediate: true
     })
@@ -22,15 +26,13 @@
         }
     })
 
-    onMounted(() => {
-        index.value = route.query.index ? parseInt(route.query.index as string) : undefined
-    })
+    onMounted(() => routeInit)
 </script>
 
 <template>
     <div class="container">
         <ClientOnly>
-            <InvoiceForm :invoice-index="index" ref="invoiceForm" />
+            <InvoiceForm :invoice-index="index" :invoice-id="id" ref="invoiceForm" />
         </ClientOnly>
     </div>
 </template>
