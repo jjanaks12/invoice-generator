@@ -49,5 +49,12 @@ export default defineNuxtConfig({
       user: "3fa264f060e76a",
       pass: '69a40db965f234'
     }
+  },
+
+  vite: {
+    server: {
+      // @ts-expect-error
+      allowedHosts: true
+    }
   }
 })
