@@ -8,7 +8,7 @@
     data: InvoiceDetail
     onClose?: Function
     showPrintBtn?: boolean
-    userId: string
+    userId?: string
   }
 
   // const { data } = useAuth()
@@ -27,9 +27,9 @@
     $fetch('/api/history', {
       method: 'POST',
       body: {
+        user_id: props.userId,
         fields: props.fields,
         data: {
-          user_id: props.userId,
           ...props.data
         }
       }
@@ -130,8 +130,9 @@
                   <td style="text-align: center; padding: 15px 0; border-bottom: 1px solid #878787;">${{ field.rate }}
                   </td>
                   <td style="text-align: center; padding: 15px 0; border-bottom: 1px solid #878787;">{{ field.quantity
-                    }}</td>
-                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">${{ field.rate *
+                  }}</td>
+                  <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid #878787;">${{
+                    field.rate *
                     field.quantity }}</td>
                 </tr>
                 <tr>

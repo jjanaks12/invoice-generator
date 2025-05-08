@@ -19,13 +19,16 @@
                 <ul class="main__nav">
                     <template v-if="status == 'unauthenticated'">
                         <li>
-                            <NuxtLink :to="{ name: 'register' }">Register</NuxtLink>
+                            <NuxtLink to="/register">Register</NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink :to="{ name: 'login' }">Login</NuxtLink>
+                            <NuxtLink to="/login">Login</NuxtLink>
                         </li>
                     </template>
                     <template v-else>
+                        <li>
+                            <NuxtLink :to="{ name: 'dashboard' }">Dashboard</NuxtLink>
+                        </li>
                         <li>
                             <NuxtLink :to="{ name: 'dashboard-invoices' }">Invoice list</NuxtLink>
                         </li>
